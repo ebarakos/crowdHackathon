@@ -7,26 +7,9 @@ api = Api(app)
 @app.after_request
 def after_request(response):
   response.headers.add('Access-Control-Allow-Origin', '*')
-  # response.headers.add("Content-type", "application/json")
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   return response  
-
-@app.route('/')
-def index():
-    # data=self.queryAPIs()
-    # longs=[]
-    # lats=[]
-    # for i in data:
-    #       longs.append(i['stop_lon'])
-    #       lats.append(i['stop_lat'])
-
-    # print longs
-    # print lats      
-    return render_template('index.html')
-      
-
-
 
 class Route(Resource):
   stop_ids={}
@@ -48,7 +31,6 @@ class Route(Resource):
     stop_url = stop_url[:-1] +')'
     data = requests.get(stop_url).json()
     stopsInfo = data['rows']
-    # print self.stop_ids
     return stopsInfo
 
   def addCrowdLoad(self,data):
@@ -59,8 +41,6 @@ class Route(Resource):
 
   def get(self, id):
     return self.addCrowdLoad(self.queryAPIs(id))
-
-
 
 class Main:
   def __init__(self):
