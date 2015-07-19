@@ -14,7 +14,6 @@ def after_request(response):
 class Route(Resource):
   stop_ids={}
 
-  
   def queryAPIs(self, id):
     id+='-20'
     trip_url = 'https://crowdpolicy.cartodb.com/api/v2/sql?q=SELECT%20trip_id%20FROM%20crowdpolicy.oasa_trips%20WHERE%20route_id=%27' + id + '%27%20LIMIT%2015'
@@ -56,14 +55,6 @@ class Main:
     Route.stop_ids=ret
 
 Main()
-
-class allIDs(Resource):
-  def get(self):
-    all ={};
-    for route in RouteNames().get():
-      for i in route['route_short_name']:
-          all[i]=Route().queryAPIs(i)
-    return all    
     
 class RouteNames(Resource):
   def get(self):
@@ -72,7 +63,6 @@ class RouteNames(Resource):
     routes = data['rows']
     return routes
  
-api.add_resource(allIDs, '/api/v1.0/all')
 api.add_resource(Route, '/api/v1.0/route/<id>')
 api.add_resource(RouteNames,'/api/v1.0/route/names')
 
